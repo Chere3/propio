@@ -1,0 +1,36 @@
+# Smart contract source — not part of the deployed website
+src/
+script/
+lib/
+out/
+cache/
+broadcast/
+foundry.toml
+foundry.lock
+deploy.sh
+
+# Secrets / templates
+.env
+.env.example
+
+# Repo metadata
+.git/
+.gitignore
+.gitmodules
+.gitattributes
+
+# Tooling
+.claude/
+.playwright-cli/
+.foundry/
+node_modules/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Reference / unused
+oblique-landing.html
+hero-community.jpg
+banner-reference.jpg
