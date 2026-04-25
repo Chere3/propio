@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <link rel="stylesheet" href="splitrent.css?v=2026042512">
+  <link rel="stylesheet" href="splitrent.css?v=2026042513">
 </head>
 <body>
 
@@ -858,22 +858,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         Monad Testnet · Chain 10143
       </div>
-      <!-- QR share button -->
-      <button class="qr-trigger" onclick="openQrModal()" aria-label="Compartir con código QR">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="3" y="3" width="7" height="7" rx="1"/>
-          <rect x="14" y="3" width="7" height="7" rx="1"/>
-          <rect x="3" y="14" width="7" height="7" rx="1"/>
-          <rect x="6" y="6" width="1.5" height="1.5"/>
-          <rect x="17" y="6" width="1.5" height="1.5"/>
-          <rect x="6" y="17" width="1.5" height="1.5"/>
-          <line x1="14" y1="14" x2="14" y2="17"/>
-          <line x1="17" y1="14" x2="17" y2="17"/>
-          <line x1="14" y1="20" x2="17" y2="20"/>
-          <line x1="20" y1="14" x2="20" y2="20"/>
-        </svg>
-        Compartir QR
-      </button>
     </div>
   </aside>
 
@@ -1565,6 +1549,25 @@
 <!-- Toast container -->
 <div id="toastContainer" role="status" aria-live="polite"></div>
 
+
+<!-- ══ QR FLOATING ACTION BUTTON ══ -->
+<button class="qr-fab" id="qrFab" onclick="openQrModal()" aria-label="Compartir con código QR">
+  <span class="qr-fab-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <rect x="6" y="6" width="1.5" height="1.5"/>
+      <rect x="17" y="6" width="1.5" height="1.5"/>
+      <rect x="6" y="17" width="1.5" height="1.5"/>
+      <line x1="14" y1="14" x2="14" y2="17"/>
+      <line x1="17" y1="14" x2="17" y2="17"/>
+      <line x1="14" y1="20" x2="17" y2="20"/>
+      <line x1="20" y1="14" x2="20" y2="20"/>
+    </svg>
+  </span>
+  <span class="qr-fab-label">Compartir</span>
+</button>
 
 <!-- ══ QR SHARE MODAL ══ -->
 <div class="qr-overlay" id="qrModal" onclick="closeQrModal(event)">

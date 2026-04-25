@@ -3970,30 +3970,82 @@ body.landing-mode .l-nav .l-btn-green:hover {
   outline-offset: 2px;
 }
 
-/* ── QR trigger button (small, in sidebar footer) ── */
-.qr-trigger {
-  display: inline-flex; align-items: center; justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 8px 10px;
-  margin-top: 4px;
-  background: transparent;
-  border: 1px solid var(--ink-100);
-  border-radius: 8px;
-  color: var(--ink-500);
+/* ── QR Floating Action Button (always visible in app mode) ── */
+.qr-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 800;
+  display: none;
+  align-items: center;
+  gap: 0;
+  height: 52px;
+  padding: 0;
+  background: linear-gradient(135deg, var(--cb-blue-bright) 0%, var(--cb-blue) 60%, var(--cb-blue-deep) 100%);
+  color: #FFFFFF;
+  border: 0;
+  border-radius: 999px;
   font-family: "Inter", sans-serif;
-  font-size: 11px; font-weight: 600;
-  letter-spacing: .02em;
+  font-size: 13px; font-weight: 600;
   cursor: pointer;
-  transition: background .15s, border-color .15s, color .15s, transform .12s;
+  overflow: hidden;
+  box-shadow:
+    0 14px 36px rgba(0,82,255,.42),
+    0 4px 12px rgba(0,68,212,.24),
+    inset 0 1px 0 rgba(255,255,255,.22);
+  transition: transform .2s var(--ease), box-shadow .25s, padding .25s var(--ease);
+  animation: qr-fab-pulse 2.6s ease-in-out infinite;
 }
-.qr-trigger svg { width: 13px; height: 13px; flex-shrink: 0; }
-.qr-trigger:hover {
-  background: var(--cb-blue-dim);
-  border-color: var(--cb-blue-dim2);
-  color: var(--cb-blue);
+body:not(.landing-mode) .qr-fab { display: inline-flex; }
+
+.qr-fab-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px;
+  flex-shrink: 0;
 }
-.qr-trigger:active { transform: scale(.97); }
+.qr-fab-icon svg { width: 22px; height: 22px; }
+
+.qr-fab-label {
+  max-width: 0;
+  opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: max-width .28s var(--ease), opacity .25s, padding .25s var(--ease);
+  padding: 0;
+}
+
+.qr-fab:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 22px 44px rgba(0,82,255,.48),
+    0 6px 14px rgba(0,68,212,.28),
+    inset 0 1px 0 rgba(255,255,255,.28);
+  animation-play-state: paused;
+}
+.qr-fab:hover .qr-fab-label {
+  max-width: 200px;
+  opacity: 1;
+  padding-right: 18px;
+}
+.qr-fab:active { transform: translateY(0) scale(.97); }
+.qr-fab:focus-visible {
+  outline: 3px solid var(--cb-blue-dim2);
+  outline-offset: 3px;
+}
+
+@keyframes qr-fab-pulse {
+  0%, 100% { box-shadow: 0 14px 36px rgba(0,82,255,.42), 0 4px 12px rgba(0,68,212,.24), inset 0 1px 0 rgba(255,255,255,.22), 0 0 0 0 rgba(0,82,255,.55); }
+  60%      { box-shadow: 0 14px 36px rgba(0,82,255,.42), 0 4px 12px rgba(0,68,212,.24), inset 0 1px 0 rgba(255,255,255,.22), 0 0 0 14px rgba(0,82,255,0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qr-fab { animation: none; }
+}
+@media (max-width: 600px) {
+  .qr-fab { right: 14px; bottom: 14px; height: 48px; }
+  .qr-fab-icon { width: 48px; height: 48px; }
+  .qr-fab-icon svg { width: 20px; height: 20px; }
+}
 
 /* ── QR modal overlay ── */
 .qr-overlay {
