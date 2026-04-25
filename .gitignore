@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Foundry build artifacts
+broadcast/
+cache/
+out/
+forge-cache/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# Node (if Vercel adds any)
+node_modules/
+
+# Tooling
+.playwright-cli/
+.claude/
+
+# Misc downloads not part of source
+hero-community.jpg
+banner-reference.jpg
+oblique-landing.html

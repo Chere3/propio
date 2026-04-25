@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propio — De token a propietario</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0A0B'/%3E%3Cpath d='M16 42V20h17c8 0 13 4 13 11 0 5-3 9-8 10l9 13H36l-8-12h-4v12H16Zm8-19v12h8c4 0 6-2 6-6s-2-6-6-6h-8Z' fill='%23D9FF4B'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="splitrent.css?v=2026042511">
+</head>
+<body>
+
+<!-- ══ LANDING PAGE ══ -->
+<div id="landing">
+
+  <!-- Nav -->
+  <nav class="l-nav">
+    <a class="brand-lockup" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">
+      <span class="brand-house">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 27 V13.4 L16 4 L28 13.4 V27" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11 27 V18 C11 14.7 13 13 16 13 C19 13 21 14.7 21 18 V27" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand-word">prop<span class="brand-i">ı</span>o</span>
+    </a>
+    <div class="l-nav-links">
+      <a href="#features">Cómo funciona</a>
+      <a href="#properties">Propiedades</a>
+      <a href="#monad">Monad</a>
+    </div>
+    <div class="l-nav-cta">
+      <button class="l-btn l-btn-ghost" onclick="enterApp()">Entrar a la plataforma</button>
+      <button class="l-btn l-btn-green" onclick="enterApp(); setTimeout(connectWallet, 400)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/></svg>
+        Conectar wallet
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="l-hero">
+    <!-- Illustrated SVG background: clouds + skyline -->
+    <svg class="l-sky-bg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cf" cx="42%" cy="32%">
+          <stop offset="0%"  stop-color="#FFFFFF"/>
+          <stop offset="60%" stop-color="#FFFFFF" stop-opacity=".96"/>
+          <stop offset="100%" stop-color="#D6E6F2" stop-opacity=".72"/>
+        </radialGradient>
+        <linearGradient id="hf" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#FFFFFF" stop-opacity=".58"/>
+          <stop offset="100%" stop-color="#BFD2E2" stop-opacity=".34"/>
+        </linearGradient>
+        <linearGradient id="hf2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#FFFFFF" stop-opacity=".42"/>
+          <stop offset="100%" stop-color="#A8BFD2" stop-opacity=".22"/>
+        </linearGradient>
+        <linearGradient id="haze" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#FFFFFF" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#FFFFFF" stop-opacity=".55"/>
+        </linearGradient>
+      </defs>
+
+      <!-- ── TOP CLOUDS ── -->
+      <g class="sb-cloud sb-c1">
+        <g transform="translate(60, 90)">
+          <ellipse cx="56"  cy="60" rx="60" ry="24" fill="url(#cf)"/>
+          <ellipse cx="110" cy="42" rx="52" ry="38" fill="url(#cf)"/>
+          <ellipse cx="170" cy="54" rx="46" ry="30" fill="url(#cf)"/>
+          <ellipse cx="222" cy="64" rx="36" ry="22" fill="url(#cf)" opacity=".94"/>
+          <ellipse cx="262" cy="72" rx="22" ry="14" fill="url(#cf)" opacity=".82"/>
+        </g>
+      </g>
+      <g class="sb-cloud sb-c2">
+        <g transform="translate(640, 60)">
+          <ellipse cx="40" cy="44" rx="42" ry="18" fill="url(#cf)" opacity=".9"/>
+          <ellipse cx="80" cy="32" rx="40" ry="28" fill="url(#cf)"/>
+          <ellipse cx="124" cy="42" rx="34" ry="22" fill="url(#cf)" opacity=".88"/>
+          <ellipse cx="160" cy="50" rx="22" ry="14" fill="url(#cf)" opacity=".78"/>
+        </g>
+      </g>
+      <g class="sb-cloud sb-c3">
+        <g transform="translate(1180, 130)">
+          <ellipse cx="50"  cy="52" rx="56" ry="22" fill="url(#cf)"/>
+          <ellipse cx="106" cy="38" rx="46" ry="34" fill="url(#cf)"/>
+          <ellipse cx="160" cy="48" rx="40" ry="26" fill="url(#cf)"/>
+          <ellipse cx="208" cy="58" rx="28" ry="18" fill="url(#cf)" opacity=".9"/>
+        </g>
+      </g>
+      <g class="sb-cloud sb-c4" opacity=".75">
+        <g transform="translate(380, 250)">
+          <ellipse cx="26" cy="14" rx="28" ry="8"  fill="#fff"/>
+          <ellipse cx="50" cy="10" rx="24" ry="14" fill="#fff"/>
+          <ellipse cx="74" cy="14" rx="20" ry="10" fill="#fff"/>
+        </g>
+      </g>
+      <g class="sb-cloud sb-c5" opacity=".7">
+        <g transform="translate(960, 280)">
+          <ellipse cx="32" cy="16" rx="34" ry="9"  fill="#fff"/>
+          <ellipse cx="60" cy="12" rx="26" ry="16" fill="#fff"/>
+          <ellipse cx="88" cy="16" rx="22" ry="11" fill="#fff"/>
+        </g>
+      </g>
+
+      <!-- ── BIRDS ── -->
+      <g class="sb-birds" stroke="#1A2A4A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".42">
+        <path d="M 540 230 q 7 -8 14 0 q 7 -8 14 0"/>
+        <path d="M 580 256 q 5 -6 10 0 q 5 -6 10 0"/>
+        <path d="M 600 232 q 4 -5 8 0 q 4 -5 8 0"/>
+        <path d="M 1010 290 q 7 -8 14 0 q 7 -8 14 0"/>
+        <path d="M 1048 314 q 5 -6 10 0 q 5 -6 10 0"/>
+      </g>
+
+      <!-- ── BOTTOM HAZE behind skyline ── -->
+      <rect x="0" y="700" width="1600" height="300" fill="url(#haze)"/>
+
+      <!-- ── BACK SKYLINE (smaller, lighter) ── -->
+      <g class="sb-skyline-back" opacity=".55">
+        <!-- Back row buildings -->
+        <g transform="translate(80, 800)">
+          <rect width="50" height="100" fill="url(#hf2)" stroke="#1A2A4A" stroke-width="1" stroke-opacity=".18"/>
+          <rect x="6"  y="10" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+          <rect x="20" y="10" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+          <rect x="34" y="10" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+          <rect x="6"  y="26" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+          <rect x="20" y="26" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+          <rect x="34" y="26" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+        </g>
+        <g transform="translate(220, 820)">
+          <path d="M0 80 L0 26 L26 6 L52 26 L52 80 Z" fill="url(#hf2)" stroke="#1A2A4A" stroke-width="1" stroke-opacity=".18" stroke-linejoin="round"/>
+          <rect x="20" y="40" width="12" height="40" fill="#1A2A4A" opacity=".12"/>
+        </g>
+        <g transform="translate(380, 770)">
+          <rect width="60" height="130" fill="url(#hf2)" stroke="#1A2A4A" stroke-width="1" stroke-opacity=".18"/>
+          <rect x="8"  y="14" width="9" height="9" fill="#1A2A4A" opacity=".12"/>
+          <rect x="25" y="14" width="9" height="9" fill="#1A2A4A" opacity=".12"/>
+          <rect x="42" y="14" width="9" height="9" fill="#1A2A4A" opacity=".12"/>
+          <rect x="8"  y="32" width="9" height="9" fill="#1A2A4A" opacity=".12"/>
+          <rect x="25" y="32" width="9" height="9" fill="#1A2A4A" opacity=".12"/>
+          <rect x="42" y="32" width="9" height="9" fill="#1A2A4A" opacity=".12"/>
+          <rect x="8"  y="50" width="9" height="9" fill="#1A2A4A" opacity=".12"/>
+          <rect x="25" y="50" width="9" height="9" fill="#1A2A4A" opacity=".12"/>
+          <rect x="42" y="50" width="9" height="9" fill="#1A2A4A" opacity=".12"/>
+        </g>
+        <g transform="translate(900, 790)">
+          <path d="M0 110 L0 32 L32 8 L64 32 L64 110 Z" fill="url(#hf2)" stroke="#1A2A4A" stroke-width="1" stroke-opacity=".18" stroke-linejoin="round"/>
+          <rect x="26" y="60" width="14" height="50" fill="#1A2A4A" opacity=".13"/>
+          <rect x="6"  y="48" width="14" height="14" fill="#1A2A4A" opacity=".12"/>
+          <rect x="46" y="48" width="14" height="14" fill="#1A2A4A" opacity=".12"/>
+        </g>
+        <g transform="translate(1080, 770)">
+          <rect width="48" height="130" fill="url(#hf2)" stroke="#1A2A4A" stroke-width="1" stroke-opacity=".18"/>
+          <line x1="24" y1="0" x2="24" y2="-22" stroke="#1A2A4A" stroke-width="1.4" stroke-opacity=".22"/>
+          <rect x="6" y="14" width="36" height="6" fill="#1A2A4A" opacity=".1"/>
+          <rect x="6" y="26" width="36" height="6" fill="#1A2A4A" opacity=".1"/>
+          <rect x="6" y="38" width="36" height="6" fill="#1A2A4A" opacity=".1"/>
+          <rect x="6" y="50" width="36" height="6" fill="#1A2A4A" opacity=".1"/>
+        </g>
+        <g transform="translate(1290, 810)">
+          <path d="M0 90 L0 28 L28 8 L56 28 L56 90 Z" fill="url(#hf2)" stroke="#1A2A4A" stroke-width="1" stroke-opacity=".18" stroke-linejoin="round"/>
+          <rect x="22" y="44" width="14" height="46" fill="#1A2A4A" opacity=".12"/>
+        </g>
+        <g transform="translate(1430, 800)">
+          <rect width="44" height="100" fill="url(#hf2)" stroke="#1A2A4A" stroke-width="1" stroke-opacity=".18"/>
+          <rect x="6"  y="10" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+          <rect x="20" y="10" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+          <rect x="6"  y="26" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+          <rect x="20" y="26" width="8" height="8" fill="#1A2A4A" opacity=".12"/>
+        </g>
+      </g>
+
+      <!-- ── FRONT SKYLINE (larger, more defined) ── -->
+      <g class="sb-skyline-front">
+        <!-- House 1: gable cottage with chimney -->
+        <g transform="translate(40, 850)">
+          <rect x="58" y="10" width="10" height="22" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.4" stroke-opacity=".24"/>
+          <path d="M0 150 L0 60 L48 22 L96 60 L96 150 Z" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".26" stroke-linejoin="round"/>
+          <rect x="40" y="86" width="20" height="64" fill="#1A2A4A" opacity=".15"/>
+          <rect x="10" y="80" width="18" height="18" fill="#1A2A4A" opacity=".15"/>
+          <rect x="68" y="80" width="18" height="18" fill="#1A2A4A" opacity=".15"/>
+          <rect x="10" y="108" width="18" height="14" fill="#1A2A4A" opacity=".12"/>
+          <rect x="68" y="108" width="18" height="14" fill="#1A2A4A" opacity=".12"/>
+        </g>
+
+        <!-- House 2: tall residential tower -->
+        <g transform="translate(210, 760)">
+          <rect width="84" height="240" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".26"/>
+          <!-- Window grid -->
+          <g fill="#1A2A4A" opacity=".18">
+            <rect x="10" y="14" width="14" height="14"/><rect x="32" y="14" width="14" height="14"/><rect x="54" y="14" width="14" height="14"/>
+            <rect x="10" y="36" width="14" height="14"/><rect x="32" y="36" width="14" height="14"/><rect x="54" y="36" width="14" height="14"/>
+            <rect x="10" y="58" width="14" height="14"/><rect x="32" y="58" width="14" height="14"/><rect x="54" y="58" width="14" height="14"/>
+            <rect x="10" y="80" width="14" height="14"/><rect x="32" y="80" width="14" height="14"/><rect x="54" y="80" width="14" height="14"/>
+            <rect x="10" y="102" width="14" height="14"/><rect x="32" y="102" width="14" height="14"/><rect x="54" y="102" width="14" height="14"/>
+            <rect x="10" y="124" width="14" height="14"/><rect x="32" y="124" width="14" height="14"/><rect x="54" y="124" width="14" height="14"/>
+            <rect x="10" y="146" width="14" height="14"/><rect x="32" y="146" width="14" height="14"/><rect x="54" y="146" width="14" height="14"/>
+            <rect x="10" y="168" width="14" height="14"/><rect x="32" y="168" width="14" height="14"/><rect x="54" y="168" width="14" height="14"/>
+          </g>
+          <rect x="32" y="200" width="20" height="40" fill="#1A2A4A" opacity=".22"/>
+        </g>
+
+        <!-- House 3: medium hipped roof -->
+        <g transform="translate(330, 820)">
+          <path d="M0 180 L0 70 L70 30 L140 70 L140 180 Z" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".26" stroke-linejoin="round"/>
+          <rect x="58" y="120" width="24" height="60" fill="#1A2A4A" opacity=".18"/>
+          <rect x="14" y="92"  width="22" height="22" fill="#1A2A4A" opacity=".15"/>
+          <rect x="104" y="92" width="22" height="22" fill="#1A2A4A" opacity=".15"/>
+          <rect x="14" y="124" width="22" height="22" fill="#1A2A4A" opacity=".13"/>
+          <rect x="104" y="124" width="22" height="22" fill="#1A2A4A" opacity=".13"/>
+          <!-- Roof window -->
+          <rect x="62" y="58" width="16" height="14" fill="#1A2A4A" opacity=".15" stroke="#1A2A4A" stroke-width="1" stroke-opacity=".22"/>
+        </g>
+
+        <!-- House 4: super-tall sleek tower -->
+        <g transform="translate(500, 700)">
+          <rect width="56" height="300" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".26"/>
+          <!-- Antenna -->
+          <line x1="28" y1="0" x2="28" y2="-28" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".3"/>
+          <circle cx="28" cy="-32" r="3" fill="#1A2A4A" opacity=".4"/>
+          <!-- Vertical window strips -->
+          <g fill="#1A2A4A" opacity=".15">
+            <rect x="8"  y="12" width="40" height="6"/>
+            <rect x="8"  y="26" width="40" height="6"/>
+            <rect x="8"  y="40" width="40" height="6"/>
+            <rect x="8"  y="54" width="40" height="6"/>
+            <rect x="8"  y="68" width="40" height="6"/>
+            <rect x="8"  y="82" width="40" height="6"/>
+            <rect x="8"  y="96" width="40" height="6"/>
+            <rect x="8"  y="110" width="40" height="6"/>
+            <rect x="8"  y="124" width="40" height="6"/>
+            <rect x="8"  y="138" width="40" height="6"/>
+            <rect x="8"  y="152" width="40" height="6"/>
+            <rect x="8"  y="166" width="40" height="6"/>
+            <rect x="8"  y="180" width="40" height="6"/>
+            <rect x="8"  y="194" width="40" height="6"/>
+            <rect x="8"  y="208" width="40" height="6"/>
+            <rect x="8"  y="222" width="40" height="6"/>
+            <rect x="8"  y="236" width="40" height="6"/>
+            <rect x="8"  y="250" width="40" height="6"/>
+            <rect x="8"  y="264" width="40" height="6"/>
+          </g>
+        </g>
+
+        <!-- House 5: charming gable, small -->
+        <g transform="translate(590, 870)">
+          <path d="M0 130 L0 50 L40 22 L80 50 L80 130 Z" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.5" stroke-opacity=".25" stroke-linejoin="round"/>
+          <rect x="32" y="74" width="16" height="56" fill="#1A2A4A" opacity=".16"/>
+          <ellipse cx="40" cy="46" rx="7" ry="6" fill="#1A2A4A" opacity=".16"/>
+          <rect x="56" y="38" width="8" height="14" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.2" stroke-opacity=".22"/>
+        </g>
+
+        <!-- House 6: medium apartment -->
+        <g transform="translate(700, 780)">
+          <rect width="100" height="220" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".26"/>
+          <g fill="#1A2A4A" opacity=".17">
+            <rect x="10" y="16" width="16" height="16"/><rect x="32" y="16" width="16" height="16"/><rect x="54" y="16" width="16" height="16"/><rect x="76" y="16" width="14" height="16"/>
+            <rect x="10" y="40" width="16" height="16"/><rect x="32" y="40" width="16" height="16"/><rect x="54" y="40" width="16" height="16"/><rect x="76" y="40" width="14" height="16"/>
+            <rect x="10" y="64" width="16" height="16"/><rect x="32" y="64" width="16" height="16"/><rect x="54" y="64" width="16" height="16"/><rect x="76" y="64" width="14" height="16"/>
+            <rect x="10" y="88" width="16" height="16"/><rect x="32" y="88" width="16" height="16"/><rect x="54" y="88" width="16" height="16"/><rect x="76" y="88" width="14" height="16"/>
+            <rect x="10" y="112" width="16" height="16"/><rect x="32" y="112" width="16" height="16"/><rect x="54" y="112" width="16" height="16"/><rect x="76" y="112" width="14" height="16"/>
+            <rect x="10" y="136" width="16" height="16"/><rect x="32" y="136" width="16" height="16"/><rect x="54" y="136" width="16" height="16"/><rect x="76" y="136" width="14" height="16"/>
+            <rect x="10" y="160" width="16" height="16"/><rect x="32" y="160" width="16" height="16"/><rect x="54" y="160" width="16" height="16"/><rect x="76" y="160" width="14" height="16"/>
+          </g>
+          <rect x="42" y="186" width="20" height="34" fill="#1A2A4A" opacity=".22"/>
+        </g>
+
+        <!-- House 7: house with steep roof -->
+        <g transform="translate(820, 850)">
+          <path d="M0 150 L0 56 L48 16 L96 56 L96 150 Z" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.5" stroke-opacity=".25" stroke-linejoin="round"/>
+          <rect x="40" y="84" width="18" height="66" fill="#1A2A4A" opacity=".17"/>
+          <rect x="8"  y="80" width="20" height="18" fill="#1A2A4A" opacity=".15"/>
+          <rect x="68" y="80" width="20" height="18" fill="#1A2A4A" opacity=".15"/>
+          <rect x="56" y="38" width="10" height="20" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.2" stroke-opacity=".22"/>
+        </g>
+
+        <!-- House 8: tall mid-rise -->
+        <g transform="translate(960, 750)">
+          <rect width="76" height="250" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".26"/>
+          <g fill="#1A2A4A" opacity=".17">
+            <rect x="10" y="14" width="14" height="14"/><rect x="30" y="14" width="14" height="14"/><rect x="50" y="14" width="14" height="14"/>
+            <rect x="10" y="36" width="14" height="14"/><rect x="30" y="36" width="14" height="14"/><rect x="50" y="36" width="14" height="14"/>
+            <rect x="10" y="58" width="14" height="14"/><rect x="30" y="58" width="14" height="14"/><rect x="50" y="58" width="14" height="14"/>
+            <rect x="10" y="80" width="14" height="14"/><rect x="30" y="80" width="14" height="14"/><rect x="50" y="80" width="14" height="14"/>
+            <rect x="10" y="102" width="14" height="14"/><rect x="30" y="102" width="14" height="14"/><rect x="50" y="102" width="14" height="14"/>
+            <rect x="10" y="124" width="14" height="14"/><rect x="30" y="124" width="14" height="14"/><rect x="50" y="124" width="14" height="14"/>
+            <rect x="10" y="146" width="14" height="14"/><rect x="30" y="146" width="14" height="14"/><rect x="50" y="146" width="14" height="14"/>
+            <rect x="10" y="168" width="14" height="14"/><rect x="30" y="168" width="14" height="14"/><rect x="50" y="168" width="14" height="14"/>
+          </g>
+          <rect x="28" y="210" width="20" height="40" fill="#1A2A4A" opacity=".22"/>
+        </g>
+
+        <!-- House 9: cute cottage -->
+        <g transform="translate(1080, 880)">
+          <path d="M0 120 L0 46 L36 18 L72 46 L72 120 Z" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.5" stroke-opacity=".25" stroke-linejoin="round"/>
+          <rect x="28" y="68" width="16" height="52" fill="#1A2A4A" opacity=".16"/>
+          <rect x="8"  y="62" width="14" height="14" fill="#1A2A4A" opacity=".15"/>
+          <rect x="50" y="62" width="14" height="14" fill="#1A2A4A" opacity=".15"/>
+        </g>
+
+        <!-- House 10: tall apartment with terrace -->
+        <g transform="translate(1180, 770)">
+          <rect width="90" height="230" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".26"/>
+          <rect x="0" y="-12" width="90" height="14" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.4" stroke-opacity=".22"/>
+          <g fill="#1A2A4A" opacity=".17">
+            <rect x="10" y="14" width="14" height="14"/><rect x="32" y="14" width="14" height="14"/><rect x="54" y="14" width="14" height="14"/><rect x="76" y="14" width="6" height="14"/>
+            <rect x="10" y="36" width="14" height="14"/><rect x="32" y="36" width="14" height="14"/><rect x="54" y="36" width="14" height="14"/><rect x="76" y="36" width="6" height="14"/>
+            <rect x="10" y="58" width="14" height="14"/><rect x="32" y="58" width="14" height="14"/><rect x="54" y="58" width="14" height="14"/><rect x="76" y="58" width="6" height="14"/>
+            <rect x="10" y="80" width="14" height="14"/><rect x="32" y="80" width="14" height="14"/><rect x="54" y="80" width="14" height="14"/><rect x="76" y="80" width="6" height="14"/>
+            <rect x="10" y="102" width="14" height="14"/><rect x="32" y="102" width="14" height="14"/><rect x="54" y="102" width="14" height="14"/><rect x="76" y="102" width="6" height="14"/>
+            <rect x="10" y="124" width="14" height="14"/><rect x="32" y="124" width="14" height="14"/><rect x="54" y="124" width="14" height="14"/><rect x="76" y="124" width="6" height="14"/>
+            <rect x="10" y="146" width="14" height="14"/><rect x="32" y="146" width="14" height="14"/><rect x="54" y="146" width="14" height="14"/><rect x="76" y="146" width="6" height="14"/>
+            <rect x="10" y="168" width="14" height="14"/><rect x="32" y="168" width="14" height="14"/><rect x="54" y="168" width="14" height="14"/><rect x="76" y="168" width="6" height="14"/>
+          </g>
+          <rect x="36" y="194" width="20" height="36" fill="#1A2A4A" opacity=".22"/>
+        </g>
+
+        <!-- House 11: house with chimney -->
+        <g transform="translate(1310, 850)">
+          <rect x="68" y="10" width="11" height="22" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.4" stroke-opacity=".24"/>
+          <path d="M0 150 L0 58 L50 20 L100 58 L100 150 Z" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".26" stroke-linejoin="round"/>
+          <rect x="42" y="86" width="20" height="64" fill="#1A2A4A" opacity=".16"/>
+          <rect x="12" y="80" width="20" height="20" fill="#1A2A4A" opacity=".15"/>
+          <rect x="72" y="80" width="20" height="20" fill="#1A2A4A" opacity=".15"/>
+        </g>
+
+        <!-- House 12: small far-right tower -->
+        <g transform="translate(1450, 800)">
+          <rect width="60" height="200" fill="url(#hf)" stroke="#1A2A4A" stroke-width="1.6" stroke-opacity=".26"/>
+          <g fill="#1A2A4A" opacity=".16">
+            <rect x="8"  y="14" width="12" height="12"/><rect x="26" y="14" width="12" height="12"/><rect x="44" y="14" width="10" height="12"/>
+            <rect x="8"  y="34" width="12" height="12"/><rect x="26" y="34" width="12" height="12"/><rect x="44" y="34" width="10" height="12"/>
+            <rect x="8"  y="54" width="12" height="12"/><rect x="26" y="54" width="12" height="12"/><rect x="44" y="54" width="10" height="12"/>
+            <rect x="8"  y="74" width="12" height="12"/><rect x="26" y="74" width="12" height="12"/><rect x="44" y="74" width="10" height="12"/>
+            <rect x="8"  y="94" width="12" height="12"/><rect x="26" y="94" width="12" height="12"/><rect x="44" y="94" width="10" height="12"/>
+            <rect x="8"  y="114" width="12" height="12"/><rect x="26" y="114" width="12" height="12"/><rect x="44" y="114" width="10" height="12"/>
+            <rect x="8"  y="134" width="12" height="12"/><rect x="26" y="134" width="12" height="12"/><rect x="44" y="134" width="10" height="12"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+
+    <div class="l-sky-content">
+      <!-- Pill badge -->
+      <div class="l-sky-badge">
+        <span class="l-sky-badge-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 21V9l9-6 9 6v12" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21V13h6v8" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span>De token a propietario · Bienes raíces</span>
+      </div>
+
+      <!-- Headline with inline icon -->
+      <h1 class="l-sky-title">
+        <span class="l-sky-line">Invierte en</span>
+        <span class="l-sky-line">
+          propiedad
+          <span class="l-sky-icon-frame">
+            <span class="l-sky-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 21V9l9-6 9 6v12" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21V13h6v8" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </span>
+          real
+        </span>
+        <span class="l-sky-line l-sky-line-blue">desde lo que tienes.</span>
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="l-sky-sub">
+        El 72% de los jóvenes en México no puede comprar casa. Con Propio, cualquier persona accede a bienes raíces desde 0.001 MON — sin banco, sin notario.
+      </p>
+
+      <!-- CTAs -->
+      <div class="l-sky-actions">
+        <button class="l-sky-cta-primary" onclick="enterApp(); setTimeout(() => navigateTo('properties'), 450)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21V13h6v8"/></svg>
+          Ver propiedades disponibles
+        </button>
+        <button class="l-sky-cta-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+          ¿Cómo funciona? →
+        </button>
+      </div>
+
+      <!-- Trust strip -->
+      <div class="l-trust-strip">
+        <p class="l-trust-label">Construido sobre infraestructura de confianza</p>
+        <div class="l-trust-row">
+          <span class="l-trust-logo">
+            <span class="tl-icon tl-monad">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 2 L28 9 V23 L16 30 L4 23 V9 Z" fill="currentColor" opacity=".18"/>
+                <path d="M16 2 L28 9 V23 L16 30 L4 23 V9 Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+                <circle cx="16" cy="16" r="4.2" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="tl-text">Monad</span>
+          </span>
+          <span class="l-trust-logo">
+            <span class="tl-icon tl-etherscan">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4"  y="13" width="6" height="11" rx="1.4" fill="currentColor" opacity=".55"/>
+                <rect x="13" y="8"  width="6" height="16" rx="1.4" fill="currentColor"/>
+                <rect x="22" y="11" width="6" height="13" rx="1.4" fill="currentColor" opacity=".75"/>
+                <circle cx="16" cy="6" r="2.2" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="tl-text">Etherscan</span>
+          </span>
+          <span class="l-trust-logo">
+            <span class="tl-icon tl-thegraph">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="14" cy="14" r="9" stroke="currentColor" stroke-width="2.4"/>
+                <circle cx="14" cy="14" r="4.5" stroke="currentColor" stroke-width="2.2"/>
+                <circle cx="24" cy="24" r="3.2" fill="currentColor"/>
+                <line x1="20.5" y1="20.5" x2="22" y2="22" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="tl-text">The Graph</span>
+          </span>
+          <span class="l-trust-logo">
+            <span class="tl-icon tl-alchemy">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 4 L26 22 H6 Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+                <circle cx="16" cy="14" r="2.6" fill="currentColor"/>
+                <line x1="10" y1="22" x2="22" y2="22" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                <line x1="13" y1="26" x2="19" y2="26" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="tl-text">Alchemy</span>
+          </span>
+          <span class="l-trust-logo">
+            <span class="tl-icon tl-pinata">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 4 L26 12 L20 28 H12 L6 12 Z" fill="currentColor" opacity=".22"/>
+                <path d="M16 4 L26 12 L20 28 H12 L6 12 Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                <line x1="16" y1="4"  x2="16" y2="28" stroke="currentColor" stroke-width="2"/>
+                <line x1="6"  y1="12" x2="26" y2="12" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </span>
+            <span class="tl-text">Pinata</span>
+          </span>
+          <span class="l-trust-logo">
+            <span class="tl-icon tl-ens">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 3 L7 11 L16 29 L25 11 Z" fill="currentColor" opacity=".22"/>
+                <path d="M16 3 L7 11 L16 29 L25 11 Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                <path d="M7 11 L25 11" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 3 L16 29" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </span>
+            <span class="tl-text">ENS</span>
+          </span>
+          <span class="l-trust-logo">
+            <span class="tl-icon tl-ipfs">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 4 L26 10 V22 L16 28 L6 22 V10 Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                <path d="M16 4 L16 16 L6 10" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 16 L26 10" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 16 L16 28" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </span>
+            <span class="tl-text">IPFS</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- Right: property photo cards + 3D coin burst -->
+    <div class="l-hero-cards">
+      <!-- Property photo cards -->
+      <div class="l-vcard vc1">
+        <div class="l-vcard-scene">
+          <svg class="l-vcard-arch" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 78 V44 L50 8 L92 44 V78Z" fill="rgba(255,255,255,.22)"/>
+            <rect x="37" y="52" width="26" height="26" rx="2" fill="rgba(255,255,255,.28)"/>
+            <rect x="10" y="52" width="18" height="14" rx="2" fill="rgba(255,255,255,.18)"/>
+            <rect x="72" y="52" width="18" height="14" rx="2" fill="rgba(255,255,255,.18)"/>
+            <rect x="60" y="16" width="7" height="18" fill="rgba(255,255,255,.15)"/>
+          </svg>
+        </div>
+        <div class="l-vcard-info">
+          <span class="l-vcard-city">CDMX</span>
+          <span class="l-vcard-name">Condesa</span>
+          <span class="l-vcard-yield">7.2% APY</span>
+        </div>
+      </div>
+      <div class="l-vcard vc2">
+        <div class="l-vcard-scene">
+          <svg class="l-vcard-arch" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="22" y="14" width="56" height="64" rx="3" fill="rgba(255,255,255,.18)"/>
+            <rect x="8" y="30" width="34" height="48" rx="3" fill="rgba(255,255,255,.13)"/>
+            <rect x="28" y="20" width="9" height="9" rx="1" fill="rgba(255,255,255,.3)"/>
+            <rect x="44" y="20" width="9" height="9" rx="1" fill="rgba(255,255,255,.3)"/>
+            <rect x="60" y="20" width="9" height="9" rx="1" fill="rgba(255,255,255,.3)"/>
+            <rect x="28" y="36" width="9" height="9" rx="1" fill="rgba(255,255,255,.25)"/>
+            <rect x="44" y="36" width="9" height="9" rx="1" fill="rgba(255,255,255,.25)"/>
+            <rect x="60" y="36" width="9" height="9" rx="1" fill="rgba(255,255,255,.25)"/>
+            <rect x="38" y="56" width="20" height="22" rx="2" fill="rgba(255,255,255,.28)"/>
+          </svg>
+        </div>
+        <div class="l-vcard-info">
+          <span class="l-vcard-city">MTY</span>
+          <span class="l-vcard-name">San Pedro</span>
+          <span class="l-vcard-yield">6.5% APY</span>
+        </div>
+      </div>
+      <div class="l-vcard vc3">
+        <div class="l-vcard-scene">
+          <svg class="l-vcard-arch" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="40" width="92" height="38" rx="3" fill="rgba(255,255,255,.18)"/>
+            <rect x="18" y="22" width="64" height="20" rx="3" fill="rgba(255,255,255,.14)"/>
+            <rect x="8" y="48" width="16" height="12" rx="1" fill="rgba(255,255,255,.28)"/>
+            <rect x="42" y="48" width="16" height="12" rx="1" fill="rgba(255,255,255,.28)"/>
+            <rect x="76" y="48" width="16" height="12" rx="1" fill="rgba(255,255,255,.28)"/>
+            <rect x="24" y="27" width="10" height="8" rx="1" fill="rgba(255,255,255,.22)"/>
+            <rect x="46" y="27" width="10" height="8" rx="1" fill="rgba(255,255,255,.22)"/>
+            <rect x="68" y="27" width="10" height="8" rx="1" fill="rgba(255,255,255,.22)"/>
+            <path d="M18 22 H82" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="l-vcard-info">
+          <span class="l-vcard-city">GDL</span>
+          <span class="l-vcard-name">Providencia</span>
+          <span class="l-vcard-yield">8.1% APY</span>
+        </div>
+      </div>
+      <!-- 3D coin burst -->
+      <div class="l-cw c1"><div class="l-coin-wrap"><div class="l-coin-face gold l-cf-lg">M</div></div></div>
+      <div class="l-cw c2"><div class="l-coin-wrap"><div class="l-coin-face gold-deep l-cf-md">M</div></div></div>
+      <div class="l-cw c3"><div class="l-coin-wrap"><div class="l-coin-face gold l-cf-xl">M</div></div></div>
+      <div class="l-cw c4"><div class="l-coin-wrap"><div class="l-coin-face gold-deep l-cf-sm">M</div></div></div>
+      <div class="l-cw c5"><div class="l-coin-wrap"><div class="l-coin-face gold l-cf-lg">M</div></div></div>
+      <div class="l-cw c6"><div class="l-coin-wrap"><div class="l-coin-face gold-deep l-cf-md">M</div></div></div>
+      <div class="l-cw c7"><div class="l-coin-wrap"><div class="l-coin-face gold l-cf-sm">M</div></div></div>
+      <div class="l-cw c8"><div class="l-coin-wrap"><div class="l-coin-face gold-deep l-cf-xl">M</div></div></div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="l-stats">
+    <div class="l-stat"><div class="l-stat-val" data-target="3" data-suffix="">3</div><div class="l-stat-label">Propiedades activas</div></div>
+    <div class="l-stat"><div class="l-stat-val" data-target="2400" data-suffix="+">2,400+</div><div class="l-stat-label">Tokens disponibles</div></div>
+    <div class="l-stat"><div class="l-stat-val">&lt;1s</div><div class="l-stat-label">Finalidad en Monad</div></div>
+    <div class="l-stat"><div class="l-stat-val">0%</div><div class="l-stat-label">Comisión de plataforma</div></div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="l-ticker" aria-hidden="true">
+    <div class="l-ticker-track">
+      <div class="l-ticker-item">Condesa, CDMX <span>0.001 MON/token</span></div>
+      <div class="l-ticker-item">San Pedro, MTY <span>0.0008 MON/token</span></div>
+      <div class="l-ticker-item">Loft Providencia, GDL <span>0.0025 MON/token</span></div>
+      <div class="l-ticker-item">Monad Testnet <span>Chain 10143</span></div>
+      <div class="l-ticker-item">Renta on-chain <span>Pro-rata automática</span></div>
+      <div class="l-ticker-item">Sin cuentas <span>Solo tu wallet</span></div>
+      <!-- duplicate for seamless loop -->
+      <div class="l-ticker-item">Condesa, CDMX <span>0.001 MON/token</span></div>
+      <div class="l-ticker-item">San Pedro, MTY <span>0.0008 MON/token</span></div>
+      <div class="l-ticker-item">Loft Providencia, GDL <span>0.0025 MON/token</span></div>
+      <div class="l-ticker-item">Monad Testnet <span>Chain 10143</span></div>
+      <div class="l-ticker-item">Renta on-chain <span>Pro-rata automática</span></div>
+      <div class="l-ticker-item">Sin cuentas <span>Solo tu wallet</span></div>
+    </div>
+  </div>
+
+  <!-- Impact -->
+  <section class="l-impact">
+    <div class="l-impact-eyebrow">El problema que resolvemos</div>
+    <h2 class="l-impact-headline">La brecha de propiedad<br>en México es <em>real.</em></h2>
+    <p class="l-impact-sub">Los bienes raíces han sido históricamente el mejor instrumento de generación de patrimonio — pero solo accesible para quienes ya tienen. Propio democratiza eso.</p>
+    <div class="l-impact-grid">
+      <div class="l-impact-card reveal-item" style="transition-delay:.0s">
+        <div class="l-impact-num">72%</div>
+        <div class="l-impact-desc"><strong>de jóvenes mexicanos</strong>no puede acceder a su primera propiedad (INEGI 2023)</div>
+      </div>
+      <div class="l-impact-card reveal-item" style="transition-delay:.12s">
+        <div class="l-impact-num">$800K</div>
+        <div class="l-impact-desc"><strong>precio promedio de entrada</strong>para una propiedad en CDMX en pesos mexicanos</div>
+      </div>
+      <div class="l-impact-card reveal-item" style="transition-delay:.24s">
+        <div class="l-impact-num">20 años</div>
+        <div class="l-impact-desc"><strong>en promedio</strong>para completar un crédito hipotecario en México</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="l-section" id="features">
+    <div class="l-section-label">¿Por qué Propio?</div>
+    <h2 class="l-section-title">La forma más <em>justa</em> de invertir en bienes raíces</h2>
+    <p class="l-section-sub">Diseñado para quienes merecen más opciones, no solo para quienes ya tienen todo.</p>
+    <div class="l-features-grid">
+      <div class="l-feature-card reveal-item" style="transition-delay:.0s">
+        <div class="l-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="l-feature-title">Inversión fraccionada</div>
+        <div class="l-feature-desc">Compra desde 1 token de cualquier propiedad. Diversifica tu portafolio con montos pequeños.</div>
+      </div>
+      <div class="l-feature-card reveal-item" style="transition-delay:.1s">
+        <div class="l-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="l-feature-title">Renta automática</div>
+        <div class="l-feature-desc">El owner distribuye renta on-chain. Tu reclamación es una sola transacción. Sin intermediarios.</div>
+      </div>
+      <div class="l-feature-card reveal-item" style="transition-delay:.2s">
+        <div class="l-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="l-feature-title">100% transparente</div>
+        <div class="l-feature-desc">Todo en blockchain. Verifica cualquier transacción en Monad Explorer en tiempo real.</div>
+      </div>
+      <div class="l-feature-card reveal-item" style="transition-delay:.1s">
+        <div class="l-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="l-feature-title">Publica tu propiedad</div>
+        <div class="l-feature-desc">¿Tienes un inmueble? Lista en la plataforma y capta inversión fraccionada desde el día 1.</div>
+      </div>
+      <div class="l-feature-card reveal-item" style="transition-delay:.2s">
+        <div class="l-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/></svg>
+        </div>
+        <div class="l-feature-title">Solo tu wallet</div>
+        <div class="l-feature-desc">Conecta MetaMask y listo. Sin registro, sin correo, sin contraseña. Tu wallet es tu identidad.</div>
+      </div>
+      <div class="l-feature-card reveal-item" style="transition-delay:.3s">
+        <div class="l-feature-icon" style="background:var(--monad-dim)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--monad)" stroke-width="2" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <div class="l-feature-title" style="color:var(--monad)">Powered by Monad</div>
+        <div class="l-feature-desc">10K TPS, finalidad en menos de 1 segundo. EVM compatible. La infraestructura más rápida para DeFi.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="l-section" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="l-section-label">Proceso</div>
+    <h2 class="l-section-title">Empieza en 3 pasos</h2>
+    <p class="l-section-sub">De cero a inversor en menos de 2 minutos.</p>
+    <div class="l-steps">
+      <div class="l-step reveal-item" style="transition-delay:.0s">
+        <div class="l-step-num">1</div>
+        <div class="l-step-title">Conecta tu wallet</div>
+        <div class="l-step-desc">Usa MetaMask u otra wallet EVM. Agrega Monad Testnet (Chain 10143) y obtén MON del faucet gratuito.</div>
+      </div>
+      <div class="l-step reveal-item" style="transition-delay:.15s">
+        <div class="l-step-num">2</div>
+        <div class="l-step-title">Elige y compra tokens</div>
+        <div class="l-step-desc">Explora el mercado, elige una propiedad y compra los tokens que quieras. La transacción confirma en &lt;1 segundo.</div>
+      </div>
+      <div class="l-step reveal-item" style="transition-delay:.3s">
+        <div class="l-step-num">3</div>
+        <div class="l-step-title">Recibe renta</div>
+        <div class="l-step-desc">Cada vez que el owner distribuya renta, tu parte queda disponible. Un click para reclamar tus MON.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Properties preview -->
+  <section class="l-section" id="properties">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px">
+      <div>
+        <div class="l-section-label">Mercado</div>
+        <h2 class="l-section-title" style="margin-bottom:0">Propiedades disponibles</h2>
+      </div>
+      <button class="l-btn l-btn-ghost" onclick="enterApp(); setTimeout(() => navigateTo('properties'), 450)">Ver todas →</button>
+    </div>
+    <div class="l-props-grid">
+      <div class="l-prop-card reveal-item" style="transition-delay:.0s">
+        <div class="l-prop-img l-prop-img--aqua">
+          <svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="60" width="18" height="40" fill="rgba(255,255,255,0.18)"/><rect x="42" y="45" width="14" height="55" fill="rgba(255,255,255,0.18)"/><rect x="60" y="30" width="22" height="70" fill="rgba(255,255,255,0.18)"/><rect x="100" y="20" width="30" height="80" fill="rgba(255,255,255,0.18)"/><rect x="170" y="25" width="24" height="75" fill="rgba(255,255,255,0.18)"/><rect x="276" y="28" width="26" height="72" fill="rgba(255,255,255,0.18)"/><rect x="342" y="38" width="20" height="62" fill="rgba(255,255,255,0.18)"/></svg>
+        </div>
+        <div class="l-prop-body">
+          <div class="l-prop-city">CDMX</div>
+          <div class="l-prop-name">Departamento Condesa</div>
+          <div class="l-prop-stats">
+            <span>734/1,000 tokens</span>
+            <span class="l-prop-price">0.001 MON</span>
+          </div>
+        </div>
+      </div>
+      <div class="l-prop-card reveal-item" style="transition-delay:.12s">
+        <div class="l-prop-img l-prop-img--prism">
+          <svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="50" width="16" height="50" fill="rgba(255,255,255,0.18)"/><rect x="70" y="15" width="28" height="85" fill="rgba(255,255,255,0.18)"/><rect x="160" y="32" width="24" height="68" fill="rgba(255,255,255,0.18)"/><rect x="208" y="18" width="30" height="82" fill="rgba(255,255,255,0.18)"/><rect x="280" y="30" width="22" height="70" fill="rgba(255,255,255,0.18)"/><rect x="338" y="36" width="20" height="64" fill="rgba(255,255,255,0.18)"/></svg>
+        </div>
+        <div class="l-prop-body">
+          <div class="l-prop-city">Monterrey</div>
+          <div class="l-prop-name">Casa San Pedro</div>
+          <div class="l-prop-stats">
+            <span>420/1,000 tokens</span>
+            <span class="l-prop-price">0.0008 MON</span>
+          </div>
+        </div>
+      </div>
+      <div class="l-prop-card reveal-item" style="transition-delay:.24s">
+        <div class="l-prop-img l-prop-img--coral">
+          <svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="55" width="14" height="45" fill="rgba(255,255,255,0.18)"/><rect x="55" y="22" width="26" height="78" fill="rgba(255,255,255,0.18)"/><rect x="139" y="28" width="24" height="72" fill="rgba(255,255,255,0.18)"/><rect x="187" y="16" width="28" height="84" fill="rgba(255,255,255,0.18)"/><rect x="259" y="30" width="22" height="70" fill="rgba(255,255,255,0.18)"/><rect x="339" y="24" width="24" height="76" fill="rgba(255,255,255,0.18)"/></svg>
+        </div>
+        <div class="l-prop-body">
+          <div class="l-prop-city">Guadalajara</div>
+          <div class="l-prop-name">Loft Providencia</div>
+          <div class="l-prop-stats">
+            <span>185/500 tokens</span>
+            <span class="l-prop-price">0.0025 MON</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Monad band -->
+  <div class="l-monad-band" id="monad">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--monad)" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span style="font-size:13px;font-weight:700;color:var(--monad)">Powered by Monad</span>
+      </div>
+      <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(20px,3vw,30px);color:var(--text);max-width:440px;line-height:1.2;letter-spacing:-.02em">La infraestructura que hace posible que Propio sea transparente, veloz y libre de intermediarios.</div>
+    </div>
+    <div class="l-monad-stats">
+      <div><div class="l-monad-stat-val">10K</div><div class="l-monad-stat-label">Transacciones por segundo</div></div>
+      <div><div class="l-monad-stat-val">&lt;1s</div><div class="l-monad-stat-label">Tiempo de finalidad</div></div>
+      <div><div class="l-monad-stat-val">EVM</div><div class="l-monad-stat-label">100% compatible</div></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="l-cta" style="padding: clamp(40px,6vw,80px) clamp(20px,5vw,80px)">
+    <div class="l-cta-inner">
+      <h2 class="l-cta-title">Tu patrimonio<br><em>empieza hoy.</em></h2>
+      <p class="l-cta-sub">Sin banco. Sin notario. Sin mínimos altos. Conecta tu wallet y construye patrimonio desde donde estás.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="l-btn l-btn-green" style="padding:14px 36px;font-size:14px;background:#3D7A4F;color:#F5F0E8" onclick="enterApp(); setTimeout(() => navigateTo('properties'), 450)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21V13h6v8"/></svg>
+          Ver propiedades disponibles
+        </button>
+        <button class="l-btn l-btn-ghost" style="padding:14px 36px;font-size:14px;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:#fff" onclick="enterApp(); setTimeout(connectWallet, 400)">
+          Conectar wallet
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="l-footer">
+    <div class="l-footer-left">
+      <span class="brand-lockup brand-lockup-sm" style="color:#fff">
+        <span class="brand-house">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 27 V13.4 L16 4 L28 13.4 V27" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11 27 V18 C11 14.7 13 13 16 13 C19 13 21 14.7 21 18 V27" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-word" style="color:#fff">prop<span class="brand-i">ı</span>o</span>
+      </span>
+      <span class="l-footer-copy" style="margin-left:10px">© 2025</span>
+    </div>
+    <div class="l-footer-links">
+      <a href="https://testnet.monadexplorer.com" target="_blank" rel="noopener">Explorer</a>
+      <a href="https://faucet.monad.xyz" target="_blank" rel="noopener">Faucet</a>
+      <a href="#" onclick="enterApp()">Plataforma</a>
+    </div>
+    <div class="l-footer-copy">Propio — De token a propietario · Monad Testnet · No es asesoría financiera.</div>
+  </footer>
+
+</div><!-- /landing -->
+
+<!-- Transition overlay -->
+<div id="appTransition"></div>
+
+<div class="app" id="app">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="brand-lockup">
+        <span class="brand-house">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 27 V13.4 L16 4 L28 13.4 V27" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11 27 V18 C11 14.7 13 13 16 13 C19 13 21 14.7 21 18 V27" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-word">prop<span class="brand-i">ı</span>o</span>
+      </span>
+    </div>
+
+    <nav class="sidebar-nav" role="navigation" aria-label="Navegación principal">
+      <div class="sidebar-section-label">Plataforma</div>
+      <button class="nav-item active" data-view="dashboard" onclick="navigateTo('dashboard')" aria-label="Dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" data-view="properties" onclick="navigateTo('properties')" aria-label="Propiedades">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21V13h6v8"/></svg>
+        Propiedades
+      </button>
+      <button class="nav-item" data-view="portfolio" onclick="navigateTo('portfolio')" aria-label="Portafolio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        Portafolio
+        <span class="nav-badge" id="portfolioBadge" style="display:none">!</span>
+      </button>
+      <button class="nav-item" data-view="history" onclick="navigateTo('history')" aria-label="Historial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
+        Historial
+      </button>
+
+      <div class="sidebar-section-label" style="margin-top:8px">Publicar</div>
+      <button class="nav-item" data-view="myprops" onclick="navigateTo('myprops')" aria-label="Mis propiedades">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Mis propiedades
+        <span class="nav-badge" id="mypropsBadge" style="display:none">0</span>
+      </button>
+      <button class="nav-item" data-view="create" onclick="navigateTo('create')" aria-label="Crear listado" style="color:var(--cb-blue);border:1px dashed var(--cb-blue-dim2);margin-top:4px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Crear listado
+      </button>
+
+      <div class="sidebar-section-label" style="margin-top:8px">Recursos</div>
+      <a class="nav-item" href="https://testnet.monadexplorer.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Explorer
+        <svg style="margin-left:auto;width:10px;height:10px;opacity:.4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+      <a class="nav-item" href="https://faucet.monad.xyz" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M5.5 9A7 7 0 0 0 12 21a7 7 0 0 0 6.5-12L12 2 5.5 9z"/></svg>
+        Faucet MON
+        <svg style="margin-left:auto;width:10px;height:10px;opacity:.4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <!-- Wallet block -->
+      <div class="wallet-block">
+        <div class="wallet-block-label">Wallet</div>
+        <!-- Disconnected -->
+        <button class="wallet-connect-btn" id="sidebarConnectBtn" onclick="connectWallet()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/></svg>
+          Conectar wallet
+        </button>
+        <!-- Connected -->
+        <div class="wallet-info" id="sidebarWalletInfo">
+          <div class="wallet-addr-row">
+            <span class="wallet-dot"></span>
+            <span class="wallet-addr" id="sidebarAddr">0x…</span>
+          </div>
+          <span class="wallet-network">Monad Testnet</span>
+          <span class="wallet-balance" id="sidebarBalance">Balance: — MON</span>
+          <button class="wallet-disconnect" id="disconnectBtn" onclick="disconnectWallet()">Desconectar</button>
+        </div>
+      </div>
+      <!-- Monad badge -->
+      <div class="monad-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Monad Testnet · Chain 10143
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="topbar-icon-btn menu-toggle" id="menuToggle" onclick="toggleSidebar()" aria-label="Menú">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <button onclick="exitToLanding()" style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--text-dim);padding:4px 8px;border-radius:7px;transition:color .15s,background .15s" onmouseover="this.style.color='var(--text)';this.style.background='var(--surface-2)'" onmouseout="this.style.color='var(--text-dim)';this.style.background='transparent'">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Inicio
+        </button>
+        <div style="width:1px;height:16px;background:var(--border)"></div>
+        <div class="page-title" id="pageTitle">Dashboard</div>
+      </div>
+      <div class="topbar-right">
+        <!-- Wrong network warning -->
+        <button id="topbarNetworkBtn" style="display:none;align-items:center;gap:6px;padding:6px 12px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:8px;font-size:11px;font-weight:700;color:var(--gold);" onclick="switchToMonad()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Red incorrecta
+        </button>
+        <!-- Topbar wallet chip (connected) -->
+        <div class="topbar-chip" id="topbarChip">
+          <span class="topbar-chip-dot"></span>
+          <span id="topbarAddr">0x…</span>
+        </div>
+        <!-- Connect button (disconnected) -->
+        <button class="topbar-connect-btn" id="topbarConnectBtn" onclick="connectWallet()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/></svg>
+          Conectar wallet
+        </button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content" id="mainContent">
+
+      <!-- ════ DASHBOARD ════ -->
+      <div class="view active" id="viewDashboard">
+        <!-- Gate (shown when wallet not connected) -->
+        <div class="wgate" id="dashboardGate">
+          <div class="wgate-card">
+            <div class="wgate-icon">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 27 V13.4 L16 4 L28 13.4 V27" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11 27 V18 C11 14.7 13 13 16 13 C19 13 21 14.7 21 18 V27" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="wgate-eyebrow">DASHBOARD BLOQUEADO</div>
+            <h2 class="wgate-title">Conecta tu wallet para ver tu portafolio</h2>
+            <p class="wgate-sub">Tus métricas, holdings, renta y movimientos viven on-chain. Conecta una wallet EVM en Monad Testnet para desbloquear el dashboard.</p>
+            <div class="wgate-actions">
+              <button class="wgate-cta-primary" onclick="connectWallet()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/></svg>
+                Conectar wallet
+              </button>
+              <button class="wgate-cta-secondary" onclick="navigateTo('properties')">Explorar mercado primero →</button>
+            </div>
+            <div class="wgate-features">
+              <div class="wgate-feat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+                <span>Sin registro · sin email</span>
+              </div>
+              <div class="wgate-feat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+                <span>MetaMask, Rabby, Coinbase</span>
+              </div>
+              <div class="wgate-feat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+                <span>Llaves siempre en tu wallet</span>
+              </div>
+            </div>
+            <a class="wgate-foot" href="https://faucet.monad.xyz" target="_blank" rel="noopener">¿Necesitas MON de testnet? → faucet.monad.xyz</a>
+          </div>
+        </div>
+
+        <!-- Connected dashboard content -->
+        <div id="dashboardConnected" style="display:none">
+        <!-- Header -->
+        <div class="dash-header">
+          <div>
+            <div class="dash-eyebrow">PORTAFOLIO</div>
+            <h1 class="dash-title">Tu inversión, en tiempo real</h1>
+            <p class="dash-sub" id="dashSub">Vista demo · Conecta tu wallet para ver tu posición real</p>
+          </div>
+          <div class="dash-header-cta">
+            <button class="btn btn-ghost" onclick="navigateTo('properties')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              Explorar mercado
+            </button>
+            <button class="btn btn-green" id="dashCtaBtn" onclick="connectWallet()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/></svg>
+              Conectar wallet
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Metrics -->
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-primary">
+            <div class="kpi-meta">
+              <span class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+              <span class="kpi-label">Valor del portafolio</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiValue">2.4831</span>
+              <span class="kpi-unit">MON</span>
+            </div>
+            <div class="kpi-delta up" id="kpiValueDelta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="6 15 12 9 18 15"/></svg>
+              <span>+12.4% vs. mes anterior</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-meta">
+              <span class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span>
+              <span class="kpi-label">Tokens totales</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiTokens">486</span>
+            </div>
+            <div class="kpi-delta" id="kpiTokensSub">en 5 propiedades</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-meta">
+              <span class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+              <span class="kpi-label">Yield promedio</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiYield">7.6</span>
+              <span class="kpi-unit">% APY</span>
+            </div>
+            <div class="kpi-delta up">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="6 15 12 9 18 15"/></svg>
+              <span>+0.3pp vs. promedio del mercado</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-meta">
+              <span class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+              <span class="kpi-label">Renta pendiente</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiRent">0.1572</span>
+              <span class="kpi-unit">MON</span>
+            </div>
+            <div class="kpi-delta">disponible para reclamar</div>
+          </div>
+        </div>
+
+        <!-- Charts Row 1: Income trend + Allocation donut -->
+        <div class="dash-charts-row">
+          <div class="chart-card chart-card-wide">
+            <div class="chart-card-header">
+              <div>
+                <div class="chart-title">Renta acumulada</div>
+                <div class="chart-sub">Últimos 6 meses · MON</div>
+              </div>
+              <div class="chart-legend">
+                <span class="cl-dot cl-blue"></span><span>Renta cobrada</span>
+                <span class="cl-dot cl-blue-light" style="margin-left:14px"></span><span>Proyección</span>
+              </div>
+            </div>
+            <div class="chart-canvas-wrap"><canvas id="chartIncome"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div>
+                <div class="chart-title">Asignación</div>
+                <div class="chart-sub">Por propiedad</div>
+              </div>
+            </div>
+            <div class="chart-canvas-wrap chart-donut-wrap">
+              <canvas id="chartAllocation"></canvas>
+              <div class="donut-center">
+                <div class="donut-center-val" id="donutTotal">5</div>
+                <div class="donut-center-label">propiedades</div>
+              </div>
+            </div>
+            <div class="donut-legend" id="donutLegend"></div>
+          </div>
+        </div>
+
+        <!-- Charts Row 2: Yield comparison + Sales velocity -->
+        <div class="dash-charts-row">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div>
+                <div class="chart-title">Yield por propiedad</div>
+                <div class="chart-sub">% APY de tu portafolio · ranking</div>
+              </div>
+            </div>
+            <div class="chart-canvas-wrap"><canvas id="chartYield"></canvas></div>
+          </div>
+          <div class="chart-card chart-card-wide">
+            <div class="chart-card-header">
+              <div>
+                <div class="chart-title">Velocidad de venta</div>
+                <div class="chart-sub">Tokens vendidos por día · mercado completo</div>
+              </div>
+              <div class="chart-stat">
+                <span class="chart-stat-val">+8.2%</span>
+                <span class="chart-stat-label">vs. semana pasada</span>
+              </div>
+            </div>
+            <div class="chart-canvas-wrap"><canvas id="chartVelocity"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Bottom row: Holdings + Activity -->
+        <div class="dash-charts-row">
+          <div class="chart-card chart-card-wide">
+            <div class="chart-card-header">
+              <div>
+                <div class="chart-title">Tus propiedades</div>
+                <div class="chart-sub">Holdings activos</div>
+              </div>
+              <button class="card-link" onclick="navigateTo('portfolio')">Ver portafolio →</button>
+            </div>
+            <div id="dashboardHoldings"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div>
+                <div class="chart-title">Actividad</div>
+                <div class="chart-sub">Movimientos recientes</div>
+              </div>
+              <button class="card-link" onclick="navigateTo('history')">Ver todo →</button>
+            </div>
+            <div id="dashboardActivity"></div>
+          </div>
+        </div>
+        </div><!-- /dashboardConnected -->
+      </div>
+
+      <!-- ════ PROPERTIES ════ -->
+      <div class="view" id="viewProperties">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Mercado</div>
+            <div class="section-sub">Propiedades disponibles para inversión fraccionada en Monad</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="pill pill-green" id="propCountPill">0 activas</span>
+            <span class="pill pill-purple">Testnet</span>
+          </div>
+        </div>
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <div class="filter-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="filterSearch" placeholder="Buscar por nombre o ciudad…" oninput="applyFilters()" aria-label="Buscar propiedad">
+          </div>
+          <div class="filter-pills">
+            <button class="filter-pill active" data-type="all"      onclick="setFilterType('all')">Todos</button>
+            <button class="filter-pill"        data-type="casa"     onclick="setFilterType('casa')">Casa</button>
+            <button class="filter-pill"        data-type="depto"    onclick="setFilterType('depto')">Depto</button>
+            <button class="filter-pill"        data-type="loft"     onclick="setFilterType('loft')">Loft</button>
+            <button class="filter-pill"        data-type="local"    onclick="setFilterType('local')">Local</button>
+            <button class="filter-pill"        data-type="terreno"  onclick="setFilterType('terreno')">Terreno</button>
+          </div>
+          <select class="filter-sort" id="filterSort" onchange="applyFilters()" aria-label="Ordenar">
+            <option value="default">Más recientes</option>
+            <option value="price-asc">Menor precio</option>
+            <option value="price-desc">Mayor precio</option>
+            <option value="avail">Más disponibles</option>
+          </select>
+        </div>
+        <div class="property-grid" id="propertyGrid">
+          <!-- Cards injected by JS -->
+        </div>
+        <div id="noResultsMsg" style="display:none" class="empty-state" style="padding:48px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="width:32px;height:32px;opacity:.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <div class="empty-state-title">Sin resultados</div>
+          <div class="empty-state-sub">Intenta con otro filtro o búsqueda</div>
+        </div>
+      </div>
+
+      <!-- ════ PROPERTY DETAIL ════ -->
+      <div class="view" id="viewPropDetail">
+        <button class="pd-back" onclick="navigateTo('properties')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al mercado
+        </button>
+        <div id="propDetailRoot"></div>
+      </div>
+
+      <!-- ════ PORTFOLIO ════ -->
+      <div class="view" id="viewPortfolio">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Mi portafolio</div>
+            <div class="section-sub">Tokens en tu poder y renta acumulada por propiedad</div>
+          </div>
+          <button class="btn btn-green btn-sm" id="claimAllBtn" onclick="dappClaimAll()" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>
+            Reclamar toda la renta
+          </button>
+        </div>
+
+        <!-- No wallet -->
+        <div class="wallet-gate" id="portfolioGate">
+          <div class="wallet-gate-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+          </div>
+          <div class="wallet-gate-title">Conecta tu wallet</div>
+          <div class="wallet-gate-sub">Conecta para ver tus tokens y reclamar renta</div>
+          <button class="btn btn-green" onclick="connectWallet()">Conectar</button>
+        </div>
+
+        <!-- Portfolio content -->
+        <div id="portfolioContent" style="display:none">
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">
+              <span class="card-title">Holdings por propiedad</span>
+              <span class="pill pill-green" id="portfolioTotalPill">0 tokens</span>
+            </div>
+            <div id="holdingsList">
+              <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21V13h6v8"/></svg>
+                <div class="empty-state-title">Sin tokens aún</div>
+                <div class="empty-state-sub">Ve a Propiedades para invertir</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Renta disponible</span>
+              <span class="metric-value green" id="portfolioTotalRent" style="font-size:16px">0.0000 MON</span>
+            </div>
+            <div id="rentList">
+              <div class="empty-state" style="padding:28px">
+                <div class="empty-state-sub">Sin renta acumulada</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ HISTORY ════ -->
+      <div class="view" id="viewHistory">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Historial de transacciones</div>
+            <div class="section-sub">Todas tus operaciones en Monad Testnet</div>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="clearHistory()">Limpiar</button>
+        </div>
+
+        <!-- No wallet -->
+        <div class="wallet-gate" id="historyGate">
+          <div class="wallet-gate-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 8 12 12 15 15"/></svg>
+          </div>
+          <div class="wallet-gate-title">Conecta tu wallet</div>
+          <div class="wallet-gate-sub">Conecta para ver el historial</div>
+          <button class="btn btn-green" onclick="connectWallet()">Conectar</button>
+        </div>
+
+        <!-- History content -->
+        <div id="historyContent" style="display:none">
+          <div class="card">
+            <div class="table-wrap">
+              <table id="historyTable">
+                <thead>
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Detalle</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                    <th>Tx</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody id="historyBody">
+                  <tr><td colspan="6"><div class="empty-state" style="padding:40px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="width:32px;height:32px;opacity:.2"><circle cx="12" cy="12" r="9"/><polyline points="12 8 12 12 15 15"/></svg><div class="empty-state-sub">Sin transacciones</div></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ MIS PROPIEDADES ════ -->
+      <div class="view" id="viewMyprops">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Mis propiedades</div>
+            <div class="section-sub">Listados que has publicado en la plataforma</div>
+          </div>
+          <button class="btn btn-green btn-sm" onclick="navigateTo('create')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="13" height="13"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nuevo listado
+          </button>
+        </div>
+        <div class="wallet-gate" id="mypropsGate">
+          <div class="wallet-gate-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="wallet-gate-title">Conecta tu wallet</div>
+          <div class="wallet-gate-sub">Conecta para ver y gestionar tus propiedades publicadas</div>
+          <button class="btn btn-green" onclick="connectWallet()">Conectar</button>
+        </div>
+        <div id="mypropsContent" style="display:none">
+          <div id="mypropsList"></div>
+        </div>
+      </div>
+
+      <!-- ════ CREAR LISTADO ════ -->
+      <div class="view" id="viewCreate">
+        <!-- Gate -->
+        <div class="wgate" id="createGate">
+          <div class="wgate-card">
+            <div class="wgate-icon">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 27 V13.4 L16 4 L28 13.4 V27" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11 27 V18 C11 14.7 13 13 16 13 C19 13 21 14.7 21 18 V27" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="wgate-eyebrow">PUBLICAR PROPIEDAD</div>
+            <h2 class="wgate-title">Necesitas conectar tu wallet para publicar</h2>
+            <p class="wgate-sub">El listado se firma desde tu wallet y queda registrado on-chain. Conecta una wallet EVM para empezar a tokenizar.</p>
+            <div class="wgate-actions">
+              <button class="wgate-cta-primary" onclick="connectWallet()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/></svg>
+                Conectar wallet
+              </button>
+              <button class="wgate-cta-secondary" onclick="navigateTo('properties')">Ver mercado →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connected create flow -->
+        <div id="createConnected" style="display:none">
+        <div class="section-header" style="margin-bottom:20px">
+          <div>
+            <div class="section-title">Crear listado</div>
+            <div class="section-sub">Publica una propiedad para inversión fraccionada</div>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="resetWizard()">Descartar</button>
+        </div>
+
+        <!-- Step indicator -->
+        <div class="wizard-header" id="wizardHeader">
+          <div class="wizard-step-dot active" id="wdot0">
+            <div class="wizard-dot active">1</div>
+            <div class="wizard-step-label">Tipo</div>
+          </div>
+          <div class="wizard-step-dot" id="wdot1">
+            <div class="wizard-dot">2</div>
+            <div class="wizard-step-label">Detalles</div>
+          </div>
+          <div class="wizard-step-dot" id="wdot2">
+            <div class="wizard-dot">3</div>
+            <div class="wizard-step-label">Tokenomics</div>
+          </div>
+          <div class="wizard-step-dot" id="wdot3">
+            <div class="wizard-dot">4</div>
+            <div class="wizard-step-label">Publicar</div>
+          </div>
+        </div>
+
+        <div class="card" style="max-width:680px;margin:0 auto">
+          <!-- Step 1: Tipo -->
+          <div class="card-body wizard-pane active" id="wpane0">
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px">¿Qué tipo de propiedad es?</div>
+            <div class="type-grid">
+              <div class="type-card" data-type="casa" onclick="selectType('casa')">
+                <div class="type-card-icon">🏠</div>
+                <div class="type-card-name">Casa</div>
+              </div>
+              <div class="type-card" data-type="depto" onclick="selectType('depto')">
+                <div class="type-card-icon">🏢</div>
+                <div class="type-card-name">Departamento</div>
+              </div>
+              <div class="type-card" data-type="loft" onclick="selectType('loft')">
+                <div class="type-card-icon">🛋️</div>
+                <div class="type-card-name">Loft</div>
+              </div>
+              <div class="type-card" data-type="local" onclick="selectType('local')">
+                <div class="type-card-icon">🏪</div>
+                <div class="type-card-name">Local comercial</div>
+              </div>
+              <div class="type-card" data-type="terreno" onclick="selectType('terreno')">
+                <div class="type-card-icon">🌍</div>
+                <div class="type-card-name">Terreno</div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:flex-end">
+              <button class="btn btn-green" id="step0Next" onclick="wizardNext()" disabled>Siguiente →</button>
+            </div>
+          </div>
+
+          <!-- Step 2: Detalles -->
+          <div class="card-body wizard-pane" id="wpane1">
+            <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px">
+              <div class="form-group">
+                <label class="form-label" for="wName">Nombre de la propiedad *</label>
+                <input class="form-input" type="text" id="wName" placeholder="Ej. Departamento Nápoles" oninput="validateStep1()">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="form-group">
+                  <label class="form-label" for="wCity">Ciudad *</label>
+                  <input class="form-input" type="text" id="wCity" placeholder="Ej. Ciudad de México" oninput="validateStep1()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="wState">Estado</label>
+                  <input class="form-input" type="text" id="wState" placeholder="Ej. CDMX">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="wDesc">Descripción</label>
+                <textarea class="form-input" id="wDesc" rows="3" placeholder="Describe la propiedad, ubicación, amenidades…" style="resize:vertical;min-height:80px"></textarea>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="form-group">
+                  <label class="form-label" for="wSqm">Superficie (m²)</label>
+                  <input class="form-input" type="number" id="wSqm" placeholder="Ej. 85">
+                </div>
+                <div class="form-group" id="wRoomsGroup">
+                  <label class="form-label" for="wRooms">Habitaciones</label>
+                  <input class="form-input" type="number" id="wRooms" placeholder="Ej. 2">
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between">
+              <button class="btn btn-ghost" onclick="wizardPrev()">← Atrás</button>
+              <button class="btn btn-green" id="step1Next" onclick="wizardNext()" disabled>Siguiente →</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Tokenomics -->
+          <div class="card-body wizard-pane" id="wpane2">
+            <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="form-group">
+                  <label class="form-label" for="wPrice">Precio por token (MON) *</label>
+                  <input class="form-input" type="number" id="wPrice" step="0.0001" min="0.0001" placeholder="0.001" oninput="updateTokenomicsPreview()">
+                  <div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap">
+                    <button class="filter-pill btn-sm" onclick="setPreset('wPrice','0.0005')">0.0005</button>
+                    <button class="filter-pill btn-sm" onclick="setPreset('wPrice','0.001')">0.001</button>
+                    <button class="filter-pill btn-sm" onclick="setPreset('wPrice','0.005')">0.005</button>
+                    <button class="filter-pill btn-sm" onclick="setPreset('wPrice','0.01')">0.01</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="wSupply">Oferta total de tokens *</label>
+                  <input class="form-input" type="number" id="wSupply" min="10" max="10000" placeholder="1000" oninput="updateTokenomicsPreview()">
+                  <div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap">
+                    <button class="filter-pill btn-sm" onclick="setPreset('wSupply','100')">100</button>
+                    <button class="filter-pill btn-sm" onclick="setPreset('wSupply','500')">500</button>
+                    <button class="filter-pill btn-sm" onclick="setPreset('wSupply','1000')">1,000</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="wYield">Rendimiento estimado anual (%)</label>
+                <input class="form-input" type="number" id="wYield" step="0.1" min="0" max="30" placeholder="8.5" oninput="updateTokenomicsPreview()">
+              </div>
+              <!-- Live preview -->
+              <div class="tokenomics-preview">
+                <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px">Vista previa</div>
+                <div class="tokenomics-preview-row"><span class="tokenomics-preview-label">Precio por token</span><span class="tokenomics-preview-val" id="prevPrice">—</span></div>
+                <div class="tokenomics-preview-row"><span class="tokenomics-preview-label">Oferta total</span><span class="tokenomics-preview-val" id="prevSupply">—</span></div>
+                <div class="tokenomics-preview-row"><span class="tokenomics-preview-label">Rendimiento estimado</span><span class="tokenomics-preview-val" id="prevYield">—</span></div>
+                <div class="tokenomics-preview-row"><span class="tokenomics-preview-label">Capitalización total</span><span class="tokenomics-preview-val" id="prevCap" style="color:var(--cb-blue)">—</span></div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between">
+              <button class="btn btn-ghost" onclick="wizardPrev()">← Atrás</button>
+              <button class="btn btn-green" id="step2Next" onclick="wizardNext()" disabled>Siguiente →</button>
+            </div>
+          </div>
+
+          <!-- Step 4: Publicar -->
+          <div class="card-body wizard-pane" id="wpane3">
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px">Resumen del listado</div>
+            <div id="wizardSummary" style="background:var(--surface-2);border-radius:var(--radius);padding:16px;margin-bottom:20px;display:flex;flex-direction:column;gap:10px"></div>
+            <div style="background:var(--monad-dim);border:1px solid rgba(167,139,250,.2);border-radius:var(--radius);padding:12px 14px;font-size:12px;color:var(--monad);margin-bottom:16px">
+              <strong>Testnet:</strong> El contrato solo acepta <code>addProperty()</code> desde el owner. Tu listado se guardará localmente. Una vez el contrato sea actualizado a permissionless, podrás publicarlo en Monad con un click.
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn btn-ghost btn-full" onclick="saveListing('draft')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Guardar como borrador
+              </button>
+              <button class="btn btn-green btn-full" id="publishBtn" onclick="saveListing('published')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Publicar en la plataforma
+              </button>
+            </div>
+            <div style="display:flex;justify-content:flex-start;margin-top:14px">
+              <button class="btn btn-ghost" onclick="wizardPrev()">← Atrás</button>
+            </div>
+          </div>
+        </div>
+        </div><!-- /createConnected -->
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ══ PROPERTY DETAIL MODAL ══ -->
+<div class="modal-overlay" id="propDetailModal" onclick="closePropDetail(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="propDetailTitle" style="max-width:480px">
+    <div class="modal-header">
+      <div>
+        <span class="modal-title" id="propDetailTitle">Propiedad</span>
+        <div style="margin-top:4px" id="propDetailMeta"></div>
+      </div>
+      <button class="modal-close" onclick="closePropDetail()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="propDetailBody"></div>
+      <div class="property-progress" style="margin-top:4px">
+        <div class="property-progress-fill" id="propDetailProgress" style="width:0%"></div>
+      </div>
+      <div class="property-progress-label" id="propDetailProgressLabel"></div>
+      <div id="propDetailDesc" style="font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:4px"></div>
+      <button class="btn btn-green btn-full" id="propDetailBuyBtn" onclick="propDetailBuy()">
+        Comprar tokens
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DISTRIBUTE RENT MODAL ══ -->
+<div class="modal-overlay" id="distModal" onclick="closeDistModal(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="distModalTitle">
+    <div class="modal-header">
+      <span class="modal-title" id="distModalTitle">Distribuir renta</span>
+      <button class="modal-close" onclick="closeDistModal()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="distModalInfo" style="background:var(--surface-2);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text-muted);margin-bottom:4px"></div>
+      <div class="form-group">
+        <label class="form-label" for="distAmount">Monto a distribuir (MON)</label>
+        <input class="form-input" type="number" id="distAmount" step="0.001" min="0.001" placeholder="0.01">
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);background:var(--surface-2);border-radius:9px;padding:10px 12px">
+        El MON que envíes se distribuirá pro-rata entre todos los holders de tokens de esta propiedad.
+      </div>
+      <button class="btn btn-green btn-full" id="distBtn" onclick="dappDistributeRent()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Distribuir renta
+      </button>
+      <div style="font-size:10px;text-align:center;color:var(--text-dim)">Solo disponible para el owner del contrato</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BUY MODAL ══ -->
+<div class="modal-overlay" id="buyModal" onclick="closeBuyModal(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="buyModalTitle">
+    <div class="modal-header">
+      <span class="modal-title" id="buyModalTitle">Comprar tokens</span>
+      <button class="modal-close" onclick="closeBuyModal()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="buyModalPropInfo" style="background:var(--surface-2);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text-muted)"></div>
+      <div class="form-group">
+        <label class="form-label" for="modalTokenAmt">Cantidad de tokens</label>
+        <input class="form-input" type="number" id="modalTokenAmt" value="1" min="1" max="200" oninput="modalUpdateCost()" aria-label="Cantidad de tokens">
+      </div>
+      <div class="cost-row">
+        <span class="cost-row-label">Total a pagar</span>
+        <span class="cost-row-val" id="modalCostDisplay">—</span>
+      </div>
+      <button class="btn btn-green btn-full" id="modalBuyBtn" onclick="dappBuyTokens('modal')">
+        Confirmar compra
+      </button>
+      <div style="font-size:10px;text-align:center;color:var(--text-dim)">La transacción se enviará a Monad Testnet vía MetaMask</div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toastContainer" role="status" aria-live="polite"></div>
+
+
+<script src="splitrent.js?v=2026042511"></script>
+</body>
+</html>
