@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <link rel="stylesheet" href="splitrent.css?v=2026042511">
+  <link rel="stylesheet" href="splitrent.css?v=2026042512">
 </head>
 <body>
 
@@ -778,7 +778,7 @@
   <!-- ══ SIDEBAR ══ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-      <span class="brand-lockup">
+      <a href="#" class="brand-lockup brand-lockup-link" onclick="exitToLanding(); return false;" aria-label="Volver a la landing">
         <span class="brand-house">
           <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 27 V13.4 L16 4 L28 13.4 V27" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
@@ -786,7 +786,7 @@
           </svg>
         </span>
         <span class="brand-word">prop<span class="brand-i">ı</span>o</span>
-      </span>
+      </a>
     </div>
 
     <nav class="sidebar-nav" role="navigation" aria-label="Navegación principal">
@@ -858,6 +858,22 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         Monad Testnet · Chain 10143
       </div>
+      <!-- QR share button -->
+      <button class="qr-trigger" onclick="openQrModal()" aria-label="Compartir con código QR">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="6" y="6" width="1.5" height="1.5"/>
+          <rect x="17" y="6" width="1.5" height="1.5"/>
+          <rect x="6" y="17" width="1.5" height="1.5"/>
+          <line x1="14" y1="14" x2="14" y2="17"/>
+          <line x1="17" y1="14" x2="17" y2="17"/>
+          <line x1="14" y1="20" x2="17" y2="20"/>
+          <line x1="20" y1="14" x2="20" y2="20"/>
+        </svg>
+        Compartir QR
+      </button>
     </div>
   </aside>
 
@@ -1550,6 +1566,28 @@
 <div id="toastContainer" role="status" aria-live="polite"></div>
 
 
-<script src="splitrent.js?v=2026042511"></script>
+<!-- ══ QR SHARE MODAL ══ -->
+<div class="qr-overlay" id="qrModal" onclick="closeQrModal(event)">
+  <div class="qr-card" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+    <button class="qr-close" onclick="closeQrModal()" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="qr-eyebrow">ESCANEA PARA ABRIR</div>
+    <h3 class="qr-title" id="qrTitle">propio.vercel.app</h3>
+    <p class="qr-sub">Apunta la cámara de tu teléfono al QR</p>
+    <div class="qr-frame">
+      <img class="qr-img" src="assets/qr-propio.svg" alt="Código QR a https://propio.vercel.app/" width="280" height="280">
+      <div class="qr-frame-mark">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 27 V13.4 L16 4 L28 13.4 V27" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11 27 V18 C11 14.7 13 13 16 13 C19 13 21 14.7 21 18 V27" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <a class="qr-url" href="https://propio.vercel.app/" target="_blank" rel="noopener">https://propio.vercel.app/ ↗</a>
+  </div>
+</div>
+
+<script src="splitrent.js?v=2026042512"></script>
 </body>
 </html>

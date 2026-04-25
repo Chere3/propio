@@ -1698,6 +1698,25 @@ function enterApp() {
   }, 350);
 }
 
+function openQrModal() {
+  const m = document.getElementById("qrModal");
+  if (m) m.classList.add("open");
+}
+function closeQrModal(e) {
+  const m = document.getElementById("qrModal");
+  if (!m) return;
+  if (e && e.target !== m && !e.currentTarget) return;
+  if (e && e.target !== m && e.target.closest(".qr-card") && !e.target.closest(".qr-close")) return;
+  m.classList.remove("open");
+}
+// Close QR with ESC key
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    const m = document.getElementById("qrModal");
+    if (m && m.classList.contains("open")) m.classList.remove("open");
+  }
+});
+
 function exitToLanding() {
   const overlay = document.getElementById("appTransition");
   overlay.classList.add("show");

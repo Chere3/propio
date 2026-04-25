@@ -3951,3 +3951,157 @@ body.landing-mode .l-nav .l-btn-green:hover {
 
 /* Modal needs relative positioning for overlay */
 #buyModal .modal { position: relative; overflow: hidden; }
+
+/* ══════════════════════════════════════════════════════
+   SIDEBAR LOGO LINK + QR SHARE
+   ══════════════════════════════════════════════════════ */
+.brand-lockup-link {
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: -4px;
+  padding: 4px;
+  transition: background .15s, transform .15s;
+}
+.brand-lockup-link:hover { background: var(--ink-50); }
+.brand-lockup-link:active { transform: scale(.98); }
+.brand-lockup-link:focus-visible {
+  outline: 2px solid var(--cb-blue);
+  outline-offset: 2px;
+}
+
+/* ── QR trigger button (small, in sidebar footer) ── */
+.qr-trigger {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 4px;
+  background: transparent;
+  border: 1px solid var(--ink-100);
+  border-radius: 8px;
+  color: var(--ink-500);
+  font-family: "Inter", sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s, transform .12s;
+}
+.qr-trigger svg { width: 13px; height: 13px; flex-shrink: 0; }
+.qr-trigger:hover {
+  background: var(--cb-blue-dim);
+  border-color: var(--cb-blue-dim2);
+  color: var(--cb-blue);
+}
+.qr-trigger:active { transform: scale(.97); }
+
+/* ── QR modal overlay ── */
+.qr-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,20,34,.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 9000;
+  padding: 24px;
+  animation: qr-overlay-in .25s ease both;
+}
+.qr-overlay.open { display: flex; }
+@keyframes qr-overlay-in { from { opacity: 0; } to { opacity: 1; } }
+
+.qr-card {
+  position: relative;
+  width: 100%; max-width: 380px;
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 32px 28px 26px;
+  text-align: center;
+  box-shadow:
+    0 24px 60px rgba(15,20,34,.32),
+    0 8px 18px rgba(15,20,34,.16);
+  animation: qr-card-in .35s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes qr-card-in {
+  from { opacity: 0; transform: scale(.92) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.qr-close {
+  position: absolute; top: 14px; right: 14px;
+  width: 32px; height: 32px;
+  background: var(--ink-50);
+  border: 1px solid var(--ink-100);
+  border-radius: 999px;
+  color: var(--ink-500);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s;
+}
+.qr-close:hover { background: var(--ink-100); color: var(--ink-900); }
+.qr-close svg { width: 14px; height: 14px; }
+
+.qr-eyebrow {
+  font-family: "Inter", sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--cb-blue);
+  margin-bottom: 6px;
+}
+.qr-title {
+  font-family: "Inter", sans-serif;
+  font-size: 22px; font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--ink-900);
+  margin-bottom: 4px;
+}
+.qr-sub {
+  font-size: 13px; color: var(--ink-500);
+  margin-bottom: 22px;
+}
+
+.qr-frame {
+  position: relative;
+  width: 280px; height: 280px;
+  margin: 0 auto 20px;
+  padding: 14px;
+  background: #FFFFFF;
+  border: 1px solid var(--ink-100);
+  border-radius: 18px;
+  box-shadow:
+    0 14px 30px rgba(15,20,34,.10),
+    0 4px 8px rgba(15,20,34,.05),
+    inset 0 1px 0 rgba(255,255,255,.95);
+}
+.qr-img {
+  width: 100%; height: 100%;
+  display: block;
+  border-radius: 8px;
+}
+.qr-frame-mark {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, #2A6BFF 0%, #0052FF 60%, #0044D4 100%);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow:
+    0 6px 16px rgba(0,82,255,.4),
+    0 0 0 5px #FFFFFF;
+}
+.qr-frame-mark svg { width: 60%; height: 60%; }
+
+.qr-url {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 4px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--cb-blue);
+  text-decoration: none;
+  padding: 8px 14px;
+  background: var(--cb-blue-dim);
+  border-radius: 999px;
+  transition: background .15s;
+}
+.qr-url:hover { background: var(--cb-blue-dim2); }
